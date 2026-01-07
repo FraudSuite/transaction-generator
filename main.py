@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import asyncio
 import numpy as np
 import time
@@ -206,6 +206,6 @@ async def stream(ws: WebSocket):
         while True:
             tx = generate_tx()
             await ws.send_json(tx)
-            await asyncio.sleep(2)
+            await asyncio.sleep(20)
     except WebSocketDisconnect:
         print("Client disconnected from generator")
