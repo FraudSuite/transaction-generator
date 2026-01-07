@@ -200,10 +200,12 @@ def generate_tx():
 
 @app.websocket("/stream")
 async def stream(ws: WebSocket):
-	await ws.accept()
-	print("Fraud service connected to generator")
-
-	while True:
-		tx = generate_tx()
-		await ws.send_json(tx)
-		await asyncio.sleep(20)
+    await ws.accept()
+    print("Fraud service connected to generator")
+    try:
+        while True:
+            tx = generate_tx()
+            await ws.send_json(tx)
+            await asyncio.sleep(2)
+    except WebSocketDisconnect:
+        print("Client disconnected from generator")
